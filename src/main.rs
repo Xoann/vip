@@ -1,7 +1,10 @@
 use clap::{Parser, Subcommand};
+use std::path::PathBuf;
 
 mod commands;
 use commands::init;
+use commands::hash_object;
+mod repo;
 
 #[derive(Parser)]
 #[command(name = "vip")]
@@ -13,7 +16,10 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
-    Init
+    Init,
+    HashObject {
+        path: PathBuf,
+    }
 }
 
 fn main() -> std::io::Result<()> {
@@ -22,6 +28,10 @@ fn main() -> std::io::Result<()> {
         Command::Init => {
             init()?;
         }
+        Command::HashObject { path } => {
+            hash_object(&path)?;
+        }
+
     }
 
     Ok(())
